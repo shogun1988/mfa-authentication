@@ -3,6 +3,7 @@ import speakeasy from "speakeasy";
 import qrCode from "qrcode";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+
 export const register = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -19,6 +20,7 @@ export const register = async (req, res) => {
     res.status(500).json({ error: "Error registering user", message: error });
   }
 };
+
 export const login = async (req, res) => {
   console.log("The authenticated user is : ", req.user);
   res.status(200).json({
@@ -27,6 +29,7 @@ export const login = async (req, res) => {
     isMfaActive: req.user.isMfaActive,
   });
 };
+
 export const authStatus = async (req, res) => {
   if (req.user) {
     res.status(200).json({
@@ -38,6 +41,7 @@ export const authStatus = async (req, res) => {
     res.status(401).json({ message: "Unauthorized user" });
   }
 };
+
 export const logout = async (req, res) => {
   if (!req.user) res.status(401).json({ message: "Unauthorized user" });
   req.logout((err) => {
@@ -70,6 +74,7 @@ export const setup2FA = async (req, res) => {
     res.status(500).json({ error: "Error setting up 2FA", message: error });
   }
 };
+
 export const verify2FA = async (req, res) => {
   const { token } = req.body;
   const user = req.user;
@@ -91,6 +96,7 @@ export const verify2FA = async (req, res) => {
     res.status(400).json({ message: "Invalid 2FA token" });
   }
 };
+
 export const reset2FA = async (req, res) => {
   try {
     const user = req.user;
